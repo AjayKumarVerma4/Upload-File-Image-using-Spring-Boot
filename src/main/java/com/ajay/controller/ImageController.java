@@ -24,8 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ajay.constant.Appconstants;
 import com.ajay.dto.ImageDTO;
 import com.ajay.entity.Image;
-import com.ajay.entity.ImageFile;
-import com.ajay.service.ImageFileService;
 import com.ajay.service.ImageService;
 import com.ajay.utils.FileHelper;
 import com.ajay.utils.Fileupload;
@@ -36,10 +34,7 @@ public class ImageController {
 	
 	@Autowired
 	ImageService imageService;
-	
-	@Autowired
-	ImageFileService imageFileService;
-	
+
 	private final Logger log=LoggerFactory.getLogger(ImageController.class);
 	
 //	Upload single or multiple Image
@@ -59,22 +54,18 @@ public class ImageController {
 		try {
 			if(imageFiles !=null && imageFiles.length > 0) {
 			Image image=new Image();
-			image.setUploadedDate(today);
-			image.setTitle(title);
-			image.setUploadedBy(uploadedBy);
-			imageService.saveOrUpdate(image);
-			
 			for (MultipartFile multipartFile : imageFiles) {
 				log.info("Hello");
 				String path = "Image/"+image.getId();
 				String fileName = multipartFile.getOriginalFilename();
 				String filePath = fileupload.getFilePath(path);
 				fileupload.uploadImage(multipartFile, filePath + "/" + fileName);
-				ImageFile imageFile=new ImageFile();
-				imageFile.setFileName(fileName);
-				imageFile.setFileUrl(path); 
-				imageFile.setImage(image);
-				imageFileService.saveOrUpdate(imageFile);
+				image.setFileName(fileName);
+				image.setFileUrl(path); 
+				image.setUploadedDate(today);
+				image.setTitle(title);
+				image.setUploadedBy(uploadedBy);
+				imageService.saveOrUpdate(image);
 			}
 		}
 			map.put("message", "Images Uploaded successfully");
@@ -94,6 +85,7 @@ public class ImageController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ImageDTO imageDTO = new ImageDTO();
 		Image imageDetail = imageService.getObject(image.getId());
+
 		map.put("status", "success");
 		map.put("imageDetail",imageDTO.ObjectToSingleImage(imageDetail));
 		map.put("message", "success");
@@ -124,7 +116,6 @@ public class ImageController {
 		
 		long imageId=imagedto.getId();
 
-		imageFileService.deleteByImageId(imageId);
 		Fileupload fileupload = new Fileupload();
 		log.info("full path"+fileupload);
 		FileHelper file = new FileHelper();

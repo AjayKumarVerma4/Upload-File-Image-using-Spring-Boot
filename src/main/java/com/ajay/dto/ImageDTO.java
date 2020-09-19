@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 import com.ajay.entity.Image;
-import com.ajay.entity.ImageFile;
+import com.ajay.utils.Fileupload;
 
 public class ImageDTO {
 	private long id;
 	private String title;
-	private Set<ImageFile> imageFile;
 	private String uploadedBy;
 	private LocalDate uploadedDate;
+	private String fileName;
+	private String fileUrl;
+	private String url;
 	public long getId() {
 		return id;
 	}
@@ -25,12 +27,6 @@ public class ImageDTO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public Set<ImageFile> getImageFile() {
-		return imageFile;
-	}
-	public void setImageFile(Set<ImageFile> imageFile) {
-		this.imageFile = imageFile;
 	}
 	public String getUploadedBy() {
 		return uploadedBy;
@@ -45,13 +41,38 @@ public class ImageDTO {
 		this.uploadedDate = uploadedDate;
 	}
 	
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFileUrl() {
+		return fileUrl;
+	}
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
+	Fileupload fileupload = new Fileupload();
+	//String path = fileupload.getFilePath()+image.getFileUrl()+"/"+image.getFileName();
+	
 	public Object ObjectToSingleImage(Image image) {
 		ImageDTO imageDTO = new ImageDTO();
 		imageDTO.setId(image.getId());
 		imageDTO.setTitle(image.getTitle());
 		imageDTO.setUploadedBy(image.getUploadedBy());
 		imageDTO.setUploadedDate(image.getUploadedDate());
-		imageDTO.setImageFile(image.getImageFile());
+		imageDTO.setFileName(image.getFileName());
+		imageDTO.setFileUrl(image.getFileUrl());
+		imageDTO.setUrl(fileupload.getFilePath()+image.getFileUrl()+"/"+image.getFileName());
 		
 		return imageDTO;
 	}
@@ -62,7 +83,6 @@ public class ImageDTO {
 	     this.title=image.getTitle();
          this.uploadedBy=image.getUploadedBy();
          this.uploadedDate=image.getUploadedDate();
-	     this.imageFile=image.getImageFile();
 		return this;
 	}
 	

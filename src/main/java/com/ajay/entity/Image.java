@@ -22,9 +22,6 @@ public class Image {
 	@Column(name="ID")
 	private long id;
 
-	@OneToMany(mappedBy = "image", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	private Set<ImageFile> imageFile;
-	
 	@Column(name="Title")
 	private String title;
 	
@@ -33,6 +30,12 @@ public class Image {
 	
 	@Column(name = "UPLOADED_DATE")
 	private LocalDate uploadedDate;
+	
+	@Column(name="FILE_NAME", length=100)
+	private String fileName;
+	
+	@Column(name="DIRECTORY", length=50)
+	private String fileUrl;
 
 	public long getId() {
 		return id;
@@ -42,14 +45,6 @@ public class Image {
 		this.id = id;
 	}
 
-	public Set<ImageFile> getImageFile() {
-		return imageFile;
-	}
-
-	public void setImageFile(Set<ImageFile> imageFile) {
-		this.imageFile = imageFile;
-	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -73,5 +68,20 @@ public class Image {
 	public void setUploadedBy(String uploadedBy) {
 		this.uploadedBy = uploadedBy;
 	}
-	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileUrl() {
+		return fileUrl;
+	}
+
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
 }

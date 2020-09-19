@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Fileupload extends FileHelper {
 
-		public static final String codeFilePath = "/home/ajay/Desktop/UploadedFile";
+		public static final String codeFilePath = "/home/ajay/Desktop/UploadedFile/";
 
 		public String getFilePath()
 		{
